@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="الرقابة الميزانياتية لولاية سعيدة - مؤسسة رقابية تسهر على ضمان شرعية وفعالية تنفيذ النفقات العمومية">
+<meta name="keywords" content="رقابة ميزانياتية، ولاية سعيدة، نفقات عمومية، تأشيرة، الجزائر">
+<title>الرقابة الميزانياتية لولاية سعيدة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --green-900: #0d3d2b;
+    --green-800: #145232;
+    --green-700: #1a6b3c;
+    --green-600: #217a45;
+    --green-500: #2d9e5f;
+    --green-400: #3dbf74;
+    --green-100: #d4f4e2;
+    --green-50: #edfaf3;
+    --red-700: #a61c1c;
+    --red-600: #c0272d;
+    --red-500: #d9363d;
+    --red-100: #fce8e8;
+    --white: #ffffff;
+    --gray-50: #f8f9fa;
+    --gray-100: #f0f2f5;
+    --gray-200: #e2e6ea;
+    --gray-300: #ced4da;
+    --gray-400: #adb5bd;
+    --gray-500: #6c757d;
+    --gray-600: #495057;
+    --gray-700: #343a40;
+    --gray-800: #212529;
+    --gold: #c9a227;
+    --gold-light: #f0d060;
+
+    --font-display: 'Cairo', sans-serif;
+    --font-body: 'Cairo', sans-serif;
+
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.14);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 20px;
+
+    --transition: 0.25s ease;
+  }
+
+  [data-theme="dark"] {
+    --white: #1a1f2e;
+    --gray-50: #212736;
+    --gray-100: #252c3a;
+    --gray-200: #2d3547;
+    --gray-300: #3a4258;
+    --gray-500: #9ba3b8;
+    --gray-600: #c0c8d8;
+    --gray-700: #d8dfe8;
+    --gray-800: #eef0f5;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.35);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--gray-700);
+    direction: rtl;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    position: fixed;
+    top: 0; right: 0; left: 0;
+    z-index: 1000;
+    background: rgba(13, 61, 43, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--green-700);
+    transition: all 0.3s;
+  }
+  .navbar.scrolled {
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+  }
+  .nav-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 68px;
+    gap: 16px;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--green-900);
+    font-weight: 900;
+    box-shadow: 0 0 0 3px rgba(201,162,39,0.25);
+  }
+  .nav-title {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .nav-subtitle {
+    color: var(--green-400);
+    font-size: 0.7rem;
+    font-weight: 400;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.82);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: white;
+    background: rgba(255,255,255,0.12);
+  }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .btn-dark-mode {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+  }
+  .btn-dark-mode:hover { background: rgba(255,255,255,0.2); }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: var(--transition);
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 68px; right: 0; left: 0;
+    background: var(--green-900);
+    z-index: 999;
+    padding: 16px;
+    box-shadow: var(--shadow-lg);
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu a {
+    display: block;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: var(--transition);
+  }
+  .mobile-menu a:hover { color: white; background: rgba(255,255,255,0.08); border-radius: 6px; }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 50%, #0a2d1c 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 24px 60px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(45,158,95,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(192,39,45,0.06) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-deco {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+  }
+  .hero-deco-1 {
+    width: 600px; height: 600px;
+    background: var(--green-500);
+    top: -200px; right: -100px;
+  }
+  .hero-deco-2 {
+    width: 400px; height: 400px;
+    background: var(--red-600);
+    bottom: -100px; left: -100px;
+  }
+
+  .hero-emblem {
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    margin-bottom: 32px;
+    box-shadow: 0 0 0 8px rgba(201,162,39,0.15), 0 0 0 16px rgba(201,162,39,0.07);
+    animation: emblemPulse 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes emblemPulse {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(201,162,39,0.15), 0 0 0 16px rgba(201,162,39,0.07); }
+    50% { box-shadow: 0 0 0 12px rgba(201,162,39,0.18), 0 0 0 22px rgba(201,162,39,0.09); }
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,162,39,0.15);
+    border: 1px solid rgba(201,162,39,0.3);
+    color: var(--gold-light);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 0.03em;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title span {
+    color: var(--gold-light);
+  }
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.8;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-desc {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--green-500), var(--green-600));
+    color: white;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(45,158,95,0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(45,158,95,0.5);
+  }
+  .btn-outline {
+    background: transparent;
+    color: white;
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 2px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-body);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.7);
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--green-900);
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-body);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(201,162,39,0.4);
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 56px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-stat {
+    text-align: center;
+    position: relative;
+  }
+  .hero-stat::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.15);
+  }
+  .hero-stat:last-child::after { display: none; }
+  .hero-stat-num {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--gold-light);
+    display: block;
+  }
+  .hero-stat-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+  }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 80px 24px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .section-eyebrow {
+    display: inline-block;
+    background: var(--green-100);
+    color: var(--green-700);
+    padding: 5px 18px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+  [data-theme="dark"] .section-eyebrow {
+    background: rgba(45,158,95,0.15);
+    color: var(--green-400);
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .section-desc {
+    color: var(--gray-500);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 0.95rem;
+  }
+  .divider {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--green-600), var(--green-400));
+    border-radius: 2px;
+    margin: 16px auto 0;
+  }
+
+  /* ===== ABOUT ===== */
+  #about { background: var(--gray-50); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .about-main {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-md);
+    border-top: 4px solid var(--green-600);
+  }
+  .about-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--green-600);
+    margin-bottom: 12px;
+  }
+  .about-main h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 16px;
+  }
+  .about-main p {
+    color: var(--gray-500);
+    line-height: 1.9;
+    font-size: 0.92rem;
+  }
+  .values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .value-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green-50);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--green-800);
+  }
+  [data-theme="dark"] .value-chip {
+    background: rgba(45,158,95,0.1);
+    color: var(--green-400);
+  }
+  .value-icon { font-size: 18px; }
+  .about-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .info-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    box-shadow: var(--shadow-sm);
+    border-right: 4px solid;
+    transition: var(--transition);
+  }
+  .info-card:hover { transform: translateX(-4px); box-shadow: var(--shadow-md); }
+  .info-card.vision { border-color: var(--green-600); }
+  .info-card.mission { border-color: var(--gold); }
+  .info-card.values-card { border-color: var(--red-600); }
+  .info-card h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .info-card p {
+    color: var(--gray-500);
+    font-size: 0.87rem;
+    line-height: 1.8;
+  }
+
+  /* ===== MISSIONS ===== */
+  #missions { background: var(--white); }
+  .missions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+  .mission-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .mission-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--green-600), var(--green-400));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s ease;
+  }
+  .mission-card:hover::before { transform: scaleX(1); }
+  .mission-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+  }
+  [data-theme="dark"] .mission-card {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .mission-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--green-100), var(--green-50));
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  [data-theme="dark"] .mission-icon {
+    background: rgba(45,158,95,0.15);
+  }
+  .mission-card h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 10px;
+  }
+  .mission-card p {
+    color: var(--gray-500);
+    font-size: 0.86rem;
+    line-height: 1.8;
+  }
+
+  /* ===== LEGAL ===== */
+  #legal { background: var(--gray-50); }
+  .legal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .legal-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: var(--transition);
+    border: 1px solid var(--gray-200);
+  }
+  [data-theme="dark"] .legal-card {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .legal-card:hover { box-shadow: var(--shadow-md); border-color: var(--green-300); }
+  .legal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-100);
+    color: var(--green-700);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    width: fit-content;
+  }
+  [data-theme="dark"] .legal-badge {
+    background: rgba(45,158,95,0.15);
+    color: var(--green-400);
+  }
+  .legal-card h3 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    line-height: 1.5;
+  }
+  .legal-card p {
+    color: var(--gray-500);
+    font-size: 0.83rem;
+    line-height: 1.7;
+    flex: 1;
+  }
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gray-100);
+    color: var(--green-700);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-body);
+    width: fit-content;
+  }
+  .btn-download:hover {
+    background: var(--green-700);
+    color: white;
+  }
+  [data-theme="dark"] .btn-download {
+    background: var(--gray-200);
+    color: var(--green-400);
+  }
+
+  /* ===== SERVICES ===== */
+  #services { background: var(--green-900); }
+  #services .section-eyebrow {
+    background: rgba(255,255,255,0.1);
+    color: var(--green-400);
+  }
+  #services .section-title { color: white; }
+  #services .section-desc { color: rgba(255,255,255,0.6); }
+  #services .divider { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .service-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-lg);
+    padding: 32px 26px;
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(45,158,95,0.1), transparent);
+    opacity: 0;
+    transition: var(--transition);
+  }
+  .service-card:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(45,158,95,0.5);
+    transform: translateY(-4px);
+  }
+  .service-card:hover::after { opacity: 1; }
+  .service-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--green-400);
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+  .service-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .service-card h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 10px;
+  }
+  .service-card p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .btn-service {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--green-400);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .btn-service:hover { color: white; gap: 10px; }
+
+  /* ===== DOCUMENTS ===== */
+  #documents { background: var(--white); }
+  .doc-filter {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 2px solid var(--gray-200);
+    background: var(--white);
+    color: var(--gray-600);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-body);
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--green-600);
+    border-color: var(--green-600);
+    color: white;
+  }
+  .doc-search {
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto 32px;
+  }
+  .doc-search input {
+    width: 100%;
+    padding: 14px 50px 14px 20px;
+    border-radius: 50px;
+    border: 2px solid var(--gray-200);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    background: var(--white);
+    color: var(--gray-700);
+    outline: none;
+    transition: var(--transition);
+  }
+  .doc-search input:focus { border-color: var(--green-500); }
+  .doc-search::after {
+    content: '🔍';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+  }
+  .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+  }
+  .doc-item {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: var(--transition);
+  }
+  [data-theme="dark"] .doc-item {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .doc-item:hover { box-shadow: var(--shadow-md); border-color: var(--green-300); }
+  .doc-type-icon { font-size: 32px; }
+  .doc-type-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 50px;
+    background: var(--red-100);
+    color: var(--red-600);
+    width: fit-content;
+  }
+  .doc-item h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  /* ===== STATS ===== */
+  #stats { background: var(--gray-50); }
+  .stats-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .stats-numbers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+  }
+  [data-theme="dark"] .stat-card {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .stat-num {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--green-700);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--gray-500);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .chart-container {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+  }
+  [data-theme="dark"] .chart-container {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .chart-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 20px;
+  }
+
+  /* ===== NEWS ===== */
+  #news { background: var(--white); }
+  .news-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+  }
+  .news-featured {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200);
+  }
+  [data-theme="dark"] .news-featured {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .news-img {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, var(--green-800), var(--green-600));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .news-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5));
+  }
+  .news-img-label {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--red-600);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+  .news-content {
+    padding: 24px;
+  }
+  .news-date {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .news-content h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .news-content p {
+    color: var(--gray-500);
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+  .news-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .news-mini {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    gap: 14px;
+    transition: var(--transition);
+  }
+  [data-theme="dark"] .news-mini {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .news-mini:hover { box-shadow: var(--shadow-md); border-color: var(--green-300); }
+  .news-mini-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gray-100);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .news-mini-content h4 {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .news-mini-content span {
+    font-size: 0.72rem;
+    color: var(--gray-400);
+  }
+
+  /* ===== FAQ ===== */
+  #faq { background: var(--gray-50); }
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .faq-item {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  [data-theme="dark"] .faq-item {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .faq-item.open { border-color: var(--green-400); box-shadow: var(--shadow-sm); }
+  .faq-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    text-align: right;
+    gap: 16px;
+    transition: var(--transition);
+  }
+  .faq-item.open .faq-q { color: var(--green-700); }
+  .faq-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: var(--transition);
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+  .faq-item.open .faq-arrow {
+    background: var(--green-100);
+    color: var(--green-700);
+    transform: rotate(180deg);
+  }
+  [data-theme="dark"] .faq-arrow { background: var(--gray-300); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+  .faq-item.open .faq-a { max-height: 400px; }
+  .faq-a-inner {
+    padding: 0 24px 20px;
+    color: var(--gray-500);
+    font-size: 0.88rem;
+    line-height: 1.9;
+  }
+
+  /* ===== CONTACT ===== */
+  #contact { background: var(--white); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .contact-form {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200);
+  }
+  [data-theme="dark"] .contact-form {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .form-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--gray-100);
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-group label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--gray-700);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 12px 16px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    background: var(--white);
+    color: var(--gray-700);
+    outline: none;
+    transition: var(--transition);
+    direction: rtl;
+  }
+  [data-theme="dark"] .form-group input,
+  [data-theme="dark"] .form-group select,
+  [data-theme="dark"] .form-group textarea {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+    color: var(--gray-700);
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--green-500);
+    box-shadow: 0 0 0 3px rgba(45,158,95,0.1);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .contact-info { display: flex; flex-direction: column; gap: 20px; }
+  .contact-info-card {
+    background: var(--gray-50);
+    border-radius: var(--radius);
+    padding: 24px;
+    border: 1px solid var(--gray-200);
+  }
+  [data-theme="dark"] .contact-info-card {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+  }
+  .contact-info-card h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .contact-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .contact-item:last-child { margin-bottom: 0; }
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--green-100);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    color: var(--green-700);
+  }
+  [data-theme="dark"] .contact-icon { background: rgba(45,158,95,0.15); }
+  .contact-item-text strong {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-bottom: 3px;
+  }
+  .contact-item-text span {
+    font-size: 0.88rem;
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+  .map-placeholder {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--green-900), var(--green-800));
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    border: 1px solid var(--gray-200);
+    position: relative;
+    transition: var(--transition);
+  }
+  .map-placeholder:hover { opacity: 0.85; }
+  .map-placeholder span { font-size: 40px; }
+  .map-placeholder p { color: rgba(255,255,255,0.8); font-size: 0.85rem; font-weight: 600; }
+  .map-placeholder small { color: rgba(255,255,255,0.5); font-size: 0.75rem; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--green-900);
+    color: rgba(255,255,255,0.75);
+    padding: 60px 24px 24px;
+  }
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.3fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand p {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    margin-top: 14px;
+    max-width: 300px;
+  }
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .footer-logo-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--green-900);
+    font-weight: 900;
+  }
+  .footer-logo-text {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .footer-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .social-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+  }
+  .social-btn:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
+  .footer-col h4 {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.84rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .footer-col ul li a:hover { color: var(--green-400); padding-right: 4px; }
+  .footer-contact-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .footer-contact-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .footer-contact-text {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+  }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-bottom p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+  }
+  .footer-flag {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .flag-stripe {
+    height: 14px;
+    width: 28px;
+    border-radius: 2px;
+  }
+
+  /* ===== SCROLL TO TOP ===== */
+  .scroll-top {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    width: 44px;
+    height: 44px;
+    background: var(--green-700);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+    z-index: 500;
+  }
+  .scroll-top.visible { opacity: 1; pointer-events: all; }
+  .scroll-top:hover { background: var(--green-600); transform: translateY(-2px); }
+
+  /* ===== ANIMATIONS ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+  .fade-in-delay-4 { transition-delay: 0.4s; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--green-800);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 2000;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .stats-layout { grid-template-columns: 1fr; }
+    .news-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero-stats { gap: 20px; }
+    .hero-stat::after { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    section { padding: 60px 20px; }
+    .contact-form { padding: 28px 20px; }
+  }
+  @media (max-width: 480px) {
+    .hero-btns { flex-direction: column; align-items: center; }
+    .values-grid { grid-template-columns: 1fr; }
+    .stats-numbers { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <div class="nav-logo">⚖</div>
+      <div>
+        <div class="nav-title">الرقابة الميزانياتية</div>
+        <div class="nav-subtitle">ولاية سعيدة</div>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">الرئيسية</a></li>
+      <li><a href="#about">التعريف</a></li>
+      <li><a href="#missions">المهام</a></li>
+      <li><a href="#legal">الإطار القانوني</a></li>
+      <li><a href="#services">الخدمات</a></li>
+      <li><a href="#documents">الوثائق</a></li>
+      <li><a href="#news">الأخبار</a></li>
+      <li><a href="#faq">الأسئلة الشائعة</a></li>
+      <li><a href="#contact">اتصل بنا</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-dark-mode" id="darkToggle" title="الوضع الليلي">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="القائمة">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero" onclick="closeMobile()">🏠 الرئيسية</a>
+  <a href="#about" onclick="closeMobile()">📋 التعريف بالهيئة</a>
+  <a href="#missions" onclick="closeMobile()">✅ المهام والصلاحيات</a>
+  <a href="#legal" onclick="closeMobile()">📜 الإطار القانوني</a>
+  <a href="#services" onclick="closeMobile()">💻 الخدمات الإلكترونية</a>
+  <a href="#documents" onclick="closeMobile()">📁 الوثائق والنماذج</a>
+  <a href="#news" onclick="closeMobile()">📰 الأخبار</a>
+  <a href="#faq" onclick="closeMobile()">❓ الأسئلة الشائعة</a>
+  <a href="#contact" onclick="closeMobile()">📞 اتصل بنا</a>
+</div>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-bg">
+    <div class="hero-pattern"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-deco hero-deco-1"></div>
+    <div class="hero-deco hero-deco-2"></div>
+  </div>
+  <div class="hero-emblem">⚖</div>
+  <div class="hero-badge">🇩🇿 الجمهورية الجزائرية الديمقراطية الشعبية</div>
+  <h1 class="hero-title">الرقابة الميزانياتية<br><span>لولاية سعيدة</span></h1>
+  <p class="hero-subtitle">مؤسسة رقابية تسهر على ضمان شرعية وفعالية تنفيذ النفقات العمومية وفق التشريع والتنظيم المعمول بهما.</p>
+  <p class="hero-desc">تضطلع الرقابة الميزانياتية بمهمة الحرص على صحة الإجراءات المتعلقة بتنفيذ ميزانية الدولة والهيئات العمومية، وذلك تعزيزاً للشفافية وترشيداً للإنفاق وحمايةً للمال العام.</p>
+  <div class="hero-btns">
+    <a href="#about" class="btn-primary">📋 التعرف على الهيئة</a>
+    <a href="#services" class="btn-gold">💻 الخدمات الإلكترونية</a>
+    <a href="#contact" class="btn-outline">📞 تواصل معنا</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num" id="h-stat1">0</span>
+      <div class="hero-stat-label">ملف معالج سنوياً</div>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num" id="h-stat2">0</span>
+      <div class="hero-stat-label">تأشيرة ممنوحة</div>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num" id="h-stat3">0</span>
+      <div class="hero-stat-label">مؤسسة تحت الرقابة</div>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num" id="h-stat4">0%</span>
+      <div class="hero-stat-label">معالجة في الآجال</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">🏛 نبذة عنا</span>
+      <h2 class="section-title">الرقابة الميزانياتية لولاية سعيدة</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-main fade-in">
+        <div class="about-label">التعريف</div>
+        <h3>ما هي الرقابة الميزانياتية؟</h3>
+        <p>الرقابة الميزانياتية هي جهاز رقابي قبلي يتولى مراقبة مشروعية الالتزامات بالنفقات العمومية، قبل الإذن بصرفها. تضمن هذه الهيئة مطابقة كل نفقة عمومية للأحكام التشريعية والتنظيمية المعمول بها، مما يسهم في ترشيد استخدام الموارد المالية للدولة والهيئات المحلية وصون المال العام من أي تجاوز أو إخلال.</p>
+        <p style="margin-top: 14px;">تمارس مراقبة الميزانية صلاحياتها على جميع النفقات التي تلتزم بها الدولة والجماعات المحلية والمؤسسات العمومية، وذلك تطبيقاً لمبادئ الشرعية والشفافية والمساءلة في الإدارة المالية العمومية.</p>
+        <div class="values-grid" style="margin-top: 24px;">
+          <div class="value-chip"><span class="value-icon">🤝</span> النزاهة</div>
+          <div class="value-chip"><span class="value-icon">🔍</span> الشفافية</div>
+          <div class="value-chip"><span class="value-icon">⭐</span> الاحترافية</div>
+          <div class="value-chip"><span class="value-icon">💼</span> المسؤولية</div>
+          <div class="value-chip"><span class="value-icon">🏛</span> خدمة المرفق العام</div>
+          <div class="value-chip"><span class="value-icon">⚖</span> سيادة القانون</div>
+        </div>
+      </div>
+      <div class="about-cards">
+        <div class="info-card vision fade-in fade-in-delay-1">
+          <h4>🎯 الرؤية</h4>
+          <p>تعزيز الشفافية وترشيد الإنفاق العمومي وضمان احترام التشريعات المالية من أجل بناء منظومة رقابية فعّالة تُحقق الحوكمة الرشيدة في تسيير المال العام.</p>
+        </div>
+        <div class="info-card mission fade-in fade-in-delay-2">
+          <h4>📌 الرسالة</h4>
+          <p>المساهمة في تحسين تسيير الموارد العمومية من خلال الرقابة القبلية على النفقات، والتحقق من استيفاء الشروط القانونية قبل تأشير الالتزامات، ومرافقة الآمرين بالصرف.</p>
+        </div>
+        <div class="info-card values-card fade-in fade-in-delay-3">
+          <h4>⚡ المبادئ التوجيهية</h4>
+          <p>نلتزم في عملنا بمبادئ الاستقلالية التامة، والنزاهة في الأحكام، والتقيد الصارم بالنصوص القانونية، مع الحرص على خدمة المصلحة العامة وصون حقوق الخزينة العمومية.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSIONS -->
+<section id="missions">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">✅ مهامنا</span>
+      <h2 class="section-title">المهام والصلاحيات</h2>
+      <p class="section-desc">تتمحور مهام الرقابة الميزانياتية حول ضمان مشروعية النفقات العمومية وحماية المال العام.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="missions-grid">
+      <div class="mission-card fade-in">
+        <div class="mission-icon">🔎</div>
+        <h3>مراقبة الالتزامات بالنفقات</h3>
+        <p>التأكد من أن كل التزام بنفقة عمومية يستوفي الشروط القانونية والتنظيمية من حيث توفر الاعتمادات والتأهيل والإجراءات.</p>
+      </div>
+      <div class="mission-card fade-in fade-in-delay-1">
+        <div class="mission-icon">📜</div>
+        <h3>منح التأشيرات</h3>
+        <p>دراسة ملفات الالتزام بالنفقات ومنح التأشيرة عند استيفاء الشروط القانونية، أو رفضها مع تبرير مكتوب واضح.</p>
+      </div>
+      <div class="mission-card fade-in fade-in-delay-2">
+        <div class="mission-icon">⚖</div>
+        <h3>ضمان احترام القوانين</h3>
+        <p>التحقق من تطبيق النصوص القانونية والتنظيمية المتعلقة بالمالية العمومية والصفقات العمومية وتسيير الميزانية.</p>
+      </div>
+      <div class="mission-card fade-in fade-in-delay-3">
+        <div class="mission-icon">🛡</div>
+        <h3>حماية المال العام</h3>
+        <p>المساهمة في ترشيد النفقات وحسن استغلال الموارد المالية العمومية وصونها من أي تبذير أو سوء تسيير.</p>
+      </div>
+      <div class="mission-card fade-in">
+        <div class="mission-icon">🤝</div>
+        <h3>مرافقة المؤسسات العمومية</h3>
+        <p>تقديم التوجيهات والإرشادات للآمرين بالصرف والمصالح المعنية حول الإجراءات الميزانياتية الصحيحة.</p>
+      </div>
+      <div class="mission-card fade-in fade-in-delay-1">
+        <div class="mission-icon">📊</div>
+        <h3>التقارير والإحصاءات</h3>
+        <p>إعداد التقارير الدورية حول وضع تنفيذ الميزانية ورفعها إلى الجهات المختصة لمتابعة الأداء المالي.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL -->
+<section id="legal">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">📜 النصوص القانونية</span>
+      <h2 class="section-title">الإطار القانوني والتنظيمي</h2>
+      <p class="section-desc">تمارس الرقابة الميزانياتية صلاحياتها استناداً إلى منظومة تشريعية متكاملة.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="legal-grid">
+      <div class="legal-card fade-in">
+        <span class="legal-badge">🏛 قانون عضوي</span>
+        <h3>القانون العضوي رقم 18-15 المتعلق بقوانين المالية</h3>
+        <p>يحدد هذا القانون مضمون قوانين المالية وكيفية إعدادها وتقديمها والتصويت عليها والمصادقة عليها، وهو المرجع الأساسي لتنظيم الميزانية العامة للدولة.</p>
+        <button class="btn-download" ><a href="loi 1815.pdf" style="text-decoration: none;" target="_blank" rel="noopener noreferrer">⬇ تحميل PDF</a></button>
+      </div>
+      <div class="legal-card fade-in fade-in-delay-1">
+        <span class="legal-badge">📗 قانون</span>
+        <h3>قانون المحاسبة العمومية رقم 90-21</h3>
+        <p>يضبط القواعد المتعلقة بتنفيذ ميزانية الدولة والهيئات العمومية وتحديد صلاحيات الآمرين بالصرف والمحاسبين العموميين.</p>
+        <button class="btn-download" onclick="showToast('جاري تحميل الملف...')">⬇ تحميل PDF</button>
+      </div>
+      <div class="legal-card fade-in fade-in-delay-2">
+        <span class="legal-badge">📋 مرسوم تنظيمي</span>
+        <h3>المرسوم التنفيذي المنظم للرقابة الميزانياتية</h3>
+        <p>يحدد صلاحيات المراقب المالي وأساليب تدخله وإجراءات منح التأشيرة أو رفضها، وكيفية التعامل مع الملفات المحالة إليه.</p>
+        <button class="btn-download" onclick="showToast('جاري تحميل الملف...')">⬇ تحميل PDF</button>
+      </div>
+      <div class="legal-card fade-in fade-in-delay-3">
+        <span class="legal-badge">📌 منشور</span>
+        <h3>المناشير والتعليمات الوزارية السارية</h3>
+        <p>مجموعة المناشير الصادرة عن وزارة المالية والمتعلقة بتطبيق إجراءات الرقابة الميزانياتية وتفسير النصوص التنظيمية.</p>
+        <button class="btn-download" onclick="showToast('جاري تحميل الملف...')">⬇ تحميل PDF</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">💻 الخدمات الإلكترونية</span>
+      <h2 class="section-title">بوابة الخدمات الرقمية</h2>
+      <p class="section-desc">خدماتنا الإلكترونية تُيسّر إجراءاتكم الإدارية على مدار الساعة.</p>
+      <div class="divider" style="background: linear-gradient(90deg, var(--gold), var(--gold-light));"></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-num">01</div>
+        <span class="service-icon">📤</span>
+        <h3>إيداع الملفات</h3>
+        <p>إمكانية رفع ملفات الالتزام بالنفقات إلكترونياً دون التنقل إلى مقر الرقابة، مع استلام وصل إيداع فوري.</p>
+        <span class="btn-service" onclick="showToast('سيتم تفعيل هذه الخدمة قريباً')">الوصول إلى الخدمة ←</span>
+      </div>
+      <div class="service-card fade-in fade-in-delay-1">
+        <div class="service-num">02</div>
+        <span class="service-icon">🔍</span>
+        <h3>متابعة الملفات</h3>
+        <p>تتبع مراحل معالجة ملفاتكم في الوقت الفعلي، من الإيداع إلى منح التأشيرة أو إخطاركم بالملاحظات.</p>
+        <span class="btn-service" onclick="showToast('سيتم تفعيل هذه الخدمة قريباً')">الوصول إلى الخدمة ←</span>
+      </div>
+      <div class="service-card fade-in fade-in-delay-2">
+        <div class="service-num">03</div>
+        <span class="service-icon">📥</span>
+        <h3>تحميل النماذج</h3>
+        <p>الوصول السريع لجميع النماذج والاستمارات الرسمية المعتمدة، منظمة حسب النوع وقابلة للتحميل مباشرة.</p>
+        <span class="btn-service" onclick="scrollTo('#documents')">الوصول إلى المكتبة ←</span>
+      </div>
+      <div class="service-card fade-in fade-in-delay-3">
+        <div class="service-num">04</div>
+        <span class="service-icon">💬</span>
+        <h3>طلب المعلومات</h3>
+        <p>تقديم الاستفسارات الإدارية وطلب التوضيحات حول الإجراءات والنصوص القانونية عبر نموذج إلكتروني مخصص.</p>
+        <span class="btn-service" onclick="scrollTo('#contact')">إرسال استفسار ←</span>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">05</div>
+        <span class="service-icon">📅</span>
+        <h3>حجز موعد</h3>
+        <p>إرسال طلب موعد مسبق مع مصالح الرقابة الميزانياتية لتجنب الانتظار وضمان أفضل خدمة في الوقت المناسب.</p>
+        <span class="btn-service" onclick="showToast('سيتم تفعيل هذه الخدمة قريباً')">حجز موعد ←</span>
+      </div>
+      <div class="service-card fade-in fade-in-delay-1">
+        <div class="service-num">06</div>
+        <span class="service-icon">✉</span>
+        <h3>تقديم المراسلات</h3>
+        <p>استقبال المراسلات الإدارية الرسمية إلكترونياً مع ضمان السرية والمتابعة وإشعار فوري باستلام المراسلة.</p>
+        <span class="btn-service" onclick="scrollTo('#contact')">إرسال مراسلة ←</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section id="documents">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">📁 المكتبة الرقمية</span>
+      <h2 class="section-title">الوثائق والنماذج الرسمية</h2>
+      <p class="section-desc">مكتبة رقمية منظمة تضم جميع النماذج والوثائق اللازمة لإجراءاتكم الإدارية.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="doc-search fade-in">
+      <input type="text" id="docSearch" placeholder="ابحث عن وثيقة أو نموذج..." oninput="filterDocs()">
+    </div>
+    <div class="doc-filter fade-in">
+      <button class="filter-btn active" onclick="filterCat('all', this)">الكل</button>
+      <button class="filter-btn" onclick="filterCat('commitment', this)">الالتزام بالنفقات</button>
+      <button class="filter-btn" onclick="filterCat('visa', this)">التأشيرة</button>
+      <button class="filter-btn" onclick="filterCat('admin', this)">إداري</button>
+      <button class="filter-btn" onclick="filterCat('guide', this)">أدلة وإجراءات</button>
+    </div>
+    <div class="docs-grid" id="docsGrid">
+      <div class="doc-item fade-in" data-cat="commitment" data-name="نموذج الالتزام بالنفقات">
+        <div class="doc-type-icon">📄</div>
+        <span class="doc-type-badge">PDF</span>
+        <h4>نموذج الالتزام بالنفقات العمومية</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل النموذج...')">⬇ تحميل</button>
+      </div>
+      <div class="doc-item fade-in fade-in-delay-1" data-cat="commitment" data-name="طلب الاعتماد المالي">
+        <div class="doc-type-icon">📄</div>
+        <span class="doc-type-badge">PDF</span>
+        <h4>طلب فتح الاعتماد المالي</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل النموذج...')">⬇ تحميل</button>
+      </div>
+      <div class="doc-item fade-in fade-in-delay-2" data-cat="visa" data-name="طلب التأشيرة">
+        <div class="doc-type-icon">📋</div>
+        <span class="doc-type-badge">PDF</span>
+        <h4>استمارة طلب التأشيرة الميزانياتية</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل النموذج...')">⬇ تحميل</button>
+      </div>
+      <div class="doc-item fade-in" data-cat="visa" data-name="ملف التأشيرة">
+        <div class="doc-type-icon">📋</div>
+        <span class="doc-type-badge">PDF</span>
+        <h4>قائمة وثائق ملف التأشيرة</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل النموذج...')">⬇ تحميل</button>
+      </div>
+      <div class="doc-item fade-in fade-in-delay-1" data-cat="admin" data-name="طلب توضيح">
+        <div class="doc-type-icon">📝</div>
+        <span class="doc-type-badge">DOCX</span>
+        <h4>نموذج طلب التوضيح</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل النموذج...')">⬇ تحميل</button>
+      </div>
+      <div class="doc-item fade-in fade-in-delay-2" data-cat="admin" data-name="استمارة إدارية">
+        <div class="doc-type-icon">📝</div>
+        <span class="doc-type-badge">PDF</span>
+        <h4>الاستمارة الإدارية العامة</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل النموذج...')">⬇ تحميل</button>
+      </div>
+      <div class="doc-item fade-in" data-cat="guide" data-name="دليل الإجراءات">
+        <div class="doc-type-icon">📗</div>
+        <span class="doc-type-badge">PDF</span>
+        <h4>دليل إجراءات الرقابة الميزانياتية</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل الدليل...')">⬇ تحميل</button>
+      </div>
+      <div class="doc-item fade-in fade-in-delay-1" data-cat="guide" data-name="دليل الآمر بالصرف">
+        <div class="doc-type-icon">📘</div>
+        <span class="doc-type-badge">PDF</span>
+        <h4>دليل الآمر بالصرف</h4>
+        <button class="btn-download" onclick="showToast('جاري تحميل الدليل...')">⬇ تحميل</button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- NEWS -->
+<section id="news">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">📰 آخر المستجدات</span>
+      <h2 class="section-title">الأخبار والإعلانات</h2>
+      <p class="section-desc">أحدث الأخبار والإعلانات الرسمية الصادرة عن مصالح الرقابة الميزانياتية.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="news-grid">
+      <div class="news-featured fade-in">
+        <div class="news-img">
+          🏛
+          <div class="news-img-overlay"></div>
+          <span class="news-img-label">إعلان رسمي</span>
+        </div>
+        <div class="news-content">
+          <div class="news-date">📅 15 ديسمبر 2024</div>
+          <h3>إطلاق البوابة الإلكترونية الجديدة لإيداع ملفات الالتزام بالنفقات</h3>
+          <p>تُعلن مصالح الرقابة الميزانياتية لولاية سعيدة عن الإطلاق القريب للبوابة الإلكترونية المتكاملة التي ستتيح للآمرين بالصرف إيداع ملفاتهم ومتابعتها إلكترونياً، في إطار مسعى الإدارة الجزائرية نحو الرقمنة الشاملة.</p>
+        </div>
+      </div>
+      <div class="news-sidebar">
+        <div class="news-mini fade-in">
+          <div class="news-mini-icon">📋</div>
+          <div class="news-mini-content">
+            <h4>تعميم جديد بشأن إجراءات الالتزام بنفقات التجهيز</h4>
+            <span>📅 10 ديسمبر 2024</span>
+          </div>
+        </div>
+        <div class="news-mini fade-in fade-in-delay-1">
+          <div class="news-mini-icon">📊</div>
+          <div class="news-mini-content">
+            <h4>نشر تقرير الأداء المالي للفصل الثالث 2024</h4>
+            <span>📅 5 ديسمبر 2024</span>
+          </div>
+        </div>
+        <div class="news-mini fade-in fade-in-delay-2">
+          <div class="news-mini-icon">📅</div>
+          <div class="news-mini-content">
+            <h4>تذكير بآجال إغلاق الحسابات المالية لسنة 2024</h4>
+            <span>📅 1 ديسمبر 2024</span>
+          </div>
+        </div>
+        <div class="news-mini fade-in fade-in-delay-3">
+          <div class="news-mini-icon">🏛</div>
+          <div class="news-mini-content">
+            <h4>تحديث دليل الإجراءات الميزانياتية المعتمد</h4>
+            <span>📅 25 نوفمبر 2024</span>
+          </div>
+        </div>
+        <div class="news-mini fade-in">
+          <div class="news-mini-icon">⚖</div>
+          <div class="news-mini-content">
+            <h4>ملتقى تكويني حول الصفقات العمومية لعام 2025</h4>
+            <span>📅 20 نوفمبر 2024</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">❓ الأسئلة الشائعة</span>
+      <h2 class="section-title">أسئلة وأجوبة</h2>
+      <p class="section-desc">إجابات واضحة على أكثر الأسئلة تكراراً حول الرقابة الميزانياتية.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item fade-in">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ما هي الرقابة الميزانياتية وما هو دورها؟
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">الرقابة الميزانياتية هي جهاز رقابي قبلي مستقل يتولى فحص مشروعية الالتزامات بالنفقات العمومية قبل صرفها. تتمثل مهمتها الأساسية في التحقق من أن كل نفقة عمومية مستوفية للشروط التشريعية والتنظيمية المعمول بها، من حيث توفر الاعتمادات المالية، واحترام الإجراءات المقررة، والتأكد من صحة تأهيل النفقة وعدم تجاوز المبالغ المرصودة.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in fade-in-delay-1">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          كيف يتم الحصول على التأشيرة الميزانياتية؟
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">للحصول على التأشيرة، يتعين على الآمر بالصرف تقديم ملف متكامل يتضمن: قرار الالتزام، وبطاقة الإرسال، وجميع الوثائق الإثباتية حسب طبيعة النفقة. يُدرس الملف من قِبل مصالح الرقابة في الآجال المحددة قانونياً، فإن استوفى الشروط تمنح التأشيرة، وإلا يُخطَر صاحبه برسالة مكتوبة تتضمن الملاحظات التفصيلية لإتمام الملف.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in fade-in-delay-2">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ما هي الوثائق المطلوبة لإيداع ملف الالتزام بالنفقات؟
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">تتفاوت الوثائق المطلوبة حسب طبيعة النفقة، غير أنه بصفة عامة يجب تقديم: نموذج بطاقة الإرسال موقعة ومختومة، قرار الالتزام، مستخرج الاعتمادات المتاحة، الوثيقة الأساسية المبررة للنفقة (عقد، صفقة، قرار، فاتورة...)، وأي وثيقة إضافية مطلوبة حسب طبيعة الإنفاق. يمكن الاطلاع على القائمة التفصيلية في دليل الإجراءات المتاح للتحميل.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ما هي آجال دراسة الملفات ومنح التأشيرة؟
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">تحدد النصوص التنظيمية الآجال القانونية لدراسة الملفات بـ 10 أيام عمل للنفقات العادية، و5 أيام للنفقات ذات الطابع الاستعجالي. يتوقف احترام هذه الآجال على اكتمال ملف الإيداع؛ إذ يُوقَف الأجل في حالة توجيه طلب توضيح أو ملاحظات، ويستأنف بعد الرد عليها.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in fade-in-delay-1">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          ماذا يحدث في حالة رفض التأشيرة؟
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">في حالة رفض التأشيرة، يُخطر الآمر بالصرف برسالة رسمية مكتوبة تتضمن بيان الأسباب الدقيقة للرفض مع الإشارة إلى النصوص القانونية المستند إليها. يحق للآمر بالصرف الطعن في قرار الرفض أمام الجهة الوصية خلال الآجال المحددة. وفي حالات استثنائية، يمكن للمسؤول التسلسلي تجاوز الرفض بموجب قرار مكتوب يتحمل بموجبه المسؤولية الكاملة.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in fade-in-delay-2">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          من هم الخاضعون للرقابة الميزانياتية؟
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">تشمل الرقابة الميزانياتية جميع الآمرين بالصرف المركزيين والثانويين الخاضعين لقانون المحاسبة العمومية، ولا سيما: مصالح الدولة الممثلة على مستوى الولاية، الجماعات المحلية (الولاية والبلديات)، المؤسسات العمومية ذات الطابع الإداري، وكل هيئة تستفيد من مساهمات الدولة ومصادر التمويل العمومية.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-eyebrow">📞 تواصل معنا</span>
+      <h2 class="section-title">اتصل بنا</h2>
+      <p class="section-desc">نحن في خدمتكم. لا تترددوا في التواصل معنا لأي استفسار أو طلب.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-form fade-in">
+        <div class="form-title">📨 نموذج التواصل</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>الاسم الكامل *</label>
+            <input type="text" placeholder="أدخل اسمك الكامل">
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input type="tel" placeholder="0XX XX XX XX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>البريد الإلكتروني *</label>
+          <input type="email" placeholder="example@email.com">
+        </div>
+        <div class="form-group">
+          <label>موضوع الرسالة *</label>
+          <select>
+            <option value="">اختر موضوع الرسالة</option>
+            <option>استفسار حول إجراءات التأشيرة</option>
+            <option>طلب معلومات قانونية</option>
+            <option>متابعة ملف</option>
+            <option>طلب موعد</option>
+            <option>شكوى أو اقتراح</option>
+            <option>أخرى</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>نص الرسالة *</label>
+          <textarea placeholder="اكتب رسالتك هنا..."></textarea>
+        </div>
+        <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="showToast('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.')">
+          ✉ إرسال الرسالة
+        </button>
+      </div>
+      <div class="contact-info fade-in fade-in-delay-1">
+        <div class="contact-info-card">
+          <h3>📍 معلومات الاتصال</h3>
+          <div class="contact-item">
+            <div class="contact-icon">🏛</div>
+            <div class="contact-item-text">
+              <strong>العنوان</strong>
+              <span>مقر الرقابة الميزانياتية، ولاية سعيدة، الجزائر</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-item-text">
+              <strong>الهاتف</strong>
+              <span>048 XX XX XX</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📠</div>
+            <div class="contact-item-text">
+              <strong>الفاكس</strong>
+              <span>048 XX XX XX</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-item-text">
+              <strong>البريد الإلكتروني</strong>
+              <span>raqaba.saida@mf.gov.dz</span>
+            </div>
+          </div>
+        </div>
+        <div class="contact-info-card">
+          <h3>🕐 أوقات العمل</h3>
+          <div class="contact-item">
+            <div class="contact-icon">📅</div>
+            <div class="contact-item-text">
+              <strong>الأحد إلى الخميس</strong>
+              <span>08:00 – 12:00 | 13:30 – 17:30</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🗓</div>
+            <div class="contact-item-text">
+              <strong>الجمعة والسبت</strong>
+              <span>مغلق</span>
+            </div>
+          </div>
+        </div>
+        <div class="map-placeholder fade-in" onclick="showToast('سيتم تفعيل الخريطة التفاعلية قريباً')">
+          <span>🗺</span>
+          <p>موقعنا على الخريطة</p>
+          <small>ولاية سعيدة، الجزائر</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-icon">⚖</div>
+        <div class="footer-logo-text">الرقابة الميزانياتية<br>لولاية سعيدة</div>
+      </div>
+      <p>جهاز رقابي قبلي مستقل يسهر على ضمان مشروعية وفعالية تنفيذ النفقات العمومية، حرصاً على حسن تسيير المال العام وترشيد الإنفاق العمومي.</p>
+      <div class="footer-social">
+        <a class="social-btn" title="فيسبوك" onclick="showToast('الصفحة الرسمية على فيسبوك')">📘</a>
+        <a class="social-btn" title="تويتر" onclick="showToast('الحساب الرسمي على تويتر')">🐦</a>
+        <a class="social-btn" title="يوتيوب" onclick="showToast('القناة الرسمية على يوتيوب')">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="#about">▸ التعريف بالهيئة</a></li>
+        <li><a href="#missions">▸ المهام والصلاحيات</a></li>
+        <li><a href="#legal">▸ الإطار القانوني</a></li>
+        <li><a href="#services">▸ الخدمات الإلكترونية</a></li>
+        <li><a href="#documents">▸ الوثائق والنماذج</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>الخدمات</h4>
+      <ul>
+        <li><a href="#services" onclick="">▸ إيداع الملفات</a></li>
+        <li><a href="#services">▸ متابعة الملفات</a></li>
+        <li><a href="#documents">▸ تحميل النماذج</a></li>
+        <li><a href="#contact">▸ طلب موعد</a></li>
+        <li><a href="#faq">▸ الأسئلة الشائعة</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>التواصل</h4>
+      <div class="footer-contact-item">
+        <span class="footer-contact-icon">🏛</span>
+        <span class="footer-contact-text">ولاية سعيدة، الجزائر</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-icon">📞</span>
+        <span class="footer-contact-text">048 XX XX XX</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-icon">📧</span>
+        <span class="footer-contact-text">raqaba.saida@mf.gov.dz</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-icon">🕐</span>
+        <span class="footer-contact-text">الأحد – الخميس<br>08:00 – 17:30</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 جميع الحقوق محفوظة – الرقابة الميزانياتية لولاية سعيدة</p>
+    <div class="footer-flag">
+      <div class="flag-stripe" style="background:#006233;"></div>
+      <div style="width:14px;height:14px;border-radius:50%;background:#d21034;display:flex;align-items:center;justify-content:center;font-size:8px;color:white;margin:0 2px;">☪</div>
+      <div class="flag-stripe" style="background:#006233;"></div>
+    </div>
+    <p>وزارة المالية – الجمهورية الجزائرية الديمقراطية الشعبية</p>
+  </div>
+</footer>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="العودة إلى الأعلى">↑</button>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DARK MODE =====
+const darkToggle = document.getElementById('darkToggle');
+let dark = localStorage.getItem('theme') === 'dark';
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : '');
+  darkToggle.textContent = dark ? '☀' : '🌙';
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+}
+applyTheme();
+darkToggle.addEventListener('click', () => { dark = !dark; applyTheme(); });
+
+// ===== NAVBAR SCROLL =====
+const navbar = document.getElementById('navbar');
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    navbar.classList.add('scrolled');
+    scrollTopBtn.classList.add('visible');
+  } else {
+    navbar.classList.remove('scrolled');
+    scrollTopBtn.classList.remove('visible');
+  }
+  // Active nav
+  const sections = ['hero','about','missions','legal','services','documents','stats','news','faq','contact'];
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) current = id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// ===== MOBILE MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+function closeMobile() { mobileMenu.classList.remove('open'); }
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ===== FAQ =====
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ===== DOC FILTER =====
+function filterCat(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.doc-item').forEach(d => {
+    d.style.display = (cat === 'all' || d.dataset.cat === cat) ? '' : 'none';
+  });
+}
+function filterDocs() {
+  const q = document.getElementById('docSearch').value.toLowerCase();
+  document.querySelectorAll('.doc-item').forEach(d => {
+    const name = (d.dataset.name || '') + d.querySelector('h4').textContent;
+    d.style.display = name.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ===== SCROLL SERVICE =====
+function scrollTo(id) { document.querySelector(id)?.scrollIntoView({behavior:'smooth'}); }
+
+// ===== INTERSECTION OBSERVER =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ===== COUNTER ANIMATION =====
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  let current = 0;
+  const duration = 1800;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current).toLocaleString('ar-DZ') + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 16);
+}
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('[data-target]').forEach(animateCounter);
+      statObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const statsSection = document.getElementById('stats');
+if (statsSection) statObserver.observe(statsSection);
+
+// Hero counter
+function animateHeroStat(el, target, suffix) {
+  let c = 0;
+  const step = target / 60;
+  const t = setInterval(() => {
+    c = Math.min(c + step, target);
+    el.textContent = Math.floor(c).toLocaleString('ar-DZ') + suffix;
+    if (c >= target) clearInterval(t);
+  }, 30);
+}
+setTimeout(() => {
+  animateHeroStat(document.getElementById('h-stat1'), 1247, '');
+  animateHeroStat(document.getElementById('h-stat2'), 1198, '');
+  animateHeroStat(document.getElementById('h-stat3'), 84, '');
+  animateHeroStat(document.getElementById('h-stat4'), 96, '%');
+}, 800);
+
+// ===== CHART =====
+const chartObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      buildChart();
+      chartObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const chartContainer = document.querySelector('.chart-container');
+if (chartContainer) chartObserver.observe(chartContainer);
+
+function buildChart() {
+  const ctx = document.getElementById('mainChart')?.getContext('2d');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['2020', '2021', '2022', '2023', '2024'],
+      datasets: [
+        {
+          label: 'ملفات معالجة',
+          data: [820, 910, 1050, 1130, 1247],
+          backgroundColor: 'rgba(26, 107, 60, 0.85)',
+          borderRadius: 8,
+          borderSkipped: false,
+        },
+        {
+          label: 'تأشيرات ممنوحة',
+          data: [780, 875, 1005, 1087, 1198],
+          backgroundColor: 'rgba(201, 162, 39, 0.75)',
+          borderRadius: 8,
+          borderSkipped: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { family: 'Cairo', size: 12 },
+            color: '#495057',
+            padding: 16,
+          }
+        },
+        tooltip: {
+          rtl: true,
+          titleFont: { family: 'Cairo' },
+          bodyFont: { family: 'Cairo' },
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { family: 'Cairo', size: 12 }, color: '#6c757d' }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: { font: { family: 'Cairo', size: 11 }, color: '#6c757d' }
+        }
+      }
+    }
+  });
+}
+
+// Smooth scroll for anchors
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
